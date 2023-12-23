@@ -1,4 +1,4 @@
-# DataStructuresAndAlgorithms
+# Data Structures and Algorithms
 Explore C++ projects: 
 1. Predator-Prey Game
 2. Dynamic Array Implementation
