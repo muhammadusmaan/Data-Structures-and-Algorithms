@@ -1,159 +1,98 @@
-#include<iostream>
-#include<conio.h>
-#include<stdlib.h>
-#include<windows.h>
+#include <iostream>
+#include <conio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include "prey.h"
 
 using namespace std;
 
-class prey{
-public:
-	char arr[20][20];
-	int pred_col ;
-		int pred_row;
-		int prey_col ;
-		int prey_row;	
-	prey(){
-
-	 pred_row = 4;
-		 pred_col = 4;
-		 prey_row = 7;
-		 prey_col = 6;	
-/*	for (int i = 0; i < 20; i++){
-			for (int j = 0; j < 20; j++){
-
-				 arr[i][j] = '-';}}
-		 arr[pred_row][pred_col] = 'P';
-
-		arr[prey_row][prey_col] = 'p';*/
-	}
-
-	int set_loc(){
-	
-for (int i = 0; i < 20; i++){
-			for (int j = 0; j < 20; j++){
-
-				 arr[i][j] = '-';}}
-		 arr[pred_row][pred_col] = '$';
-
-		arr[prey_row][prey_col] = 'p';
-		
-while(true){
-	
-	display();
-	
-            int rd=pred_row-prey_row;   
-         int cd=pred_col-prey_col;
-        
-
- if(rd==-3&&cd==-2){   
-pred_col+=2;
-prey_col+=1;	}
-else if(rd==-3&&cd==-1){   
-pred_col+=2;
-	}
-
-else if(rd==-3&&cd==1){   
-pred_row+=2;
-pred_col-=1;
-
-prey_row+=1;	}
-
-else if(rd==-2&&cd==0){   
-
-pred_row+=2;
-prey_col+=2;
-	}
-
-else if(rd==0&&cd==-2){ 
-pred_col+=1;  
-pred_row+=1;
-prey_row+=2;
-prey_col+=1;
-	}
-
-else if(rd==-1&&cd==-2){   
-pred_row+=1;
-prey_col+=2;	}
-
-else if(rd==0&&cd==-4){   
-pred_col+=2;
-prey_col+=3;	}               
-
-else if(rd==0&&cd==-5){   
-pred_col+=1;
-prey_col+=2;	}
-
-
-else if(rd==0&&cd==-6){   
-pred_col+=3;
-prey_row+=1;	}
-
-
-else if(rd==-1&&cd==-3){   
-pred_col+=3;
-prey_col-=2; 
-}
-else if(rd==-1&&cd==2){   
-pred_row+=1;
-prey_col-=3; 
-}
-else if(rd==0&&cd==5){   
-pred_col-=2;
-prey_col-=3;
-	}
-else if(rd==0&&cd==6){ 
-pred_col-=2;
-prey_col-=3;
-}
-else if(rd==0&&cd==7){ 
-pred_col-=2;
-prey_col-=3;
+prey::prey() {
+    pred_row = 4;
+    pred_col = 4;
+    prey_row = 7;
+    prey_col = 6;
 }
 
-  else if(rd==0&&cd==8){ 
-pred_col-=8;
-prey_row-=3;
-} 
-else if(rd==3&&cd==0){ 
-pred_row-=2;
-prey_row-=3;
-} 
-else if(rd==4&&cd==0){ 
-pred_row-=4;
-prey_col+=3;
-} 
-else if(rd==0&&cd==-3){ 
-pred_col+=1;
-prey_col+=3;
-} 
+void prey::set_loc() {
+    for (int i = 0; i < 20; i++) {
+        for (int j = 0; j < 20; j++) {
+            arr[i][j] = '-';
+        }
+    }
+    arr[pred_row][pred_col] = '$';
+    arr[prey_row][prey_col] = 'p';
 
-
-Sleep(1500);
-system("CLS");
-
-}
+    while (true) {
+        display();
+        movePredator();
+        movePrey();
+        Sleep(1500);
+        system("CLS");
+    }
 }
 
-	void display()
-	{	
-		for (int k = 0; k < 20; k++){
-			for (int l = 0; l < 20; l++){
- arr[k][l] = '-';
-  arr[pred_row][pred_col] = '$';
+void prey::movePredator() {
+    int rd = pred_row - prey_row;
+    int cd = pred_col - prey_col;
 
-		arr[prey_row][prey_col] = 'p';
-				cout<<" "<<arr[k][l];
-			}
-			cout<<endl;
-		}
-	}
+    struct Move {
+        int row;
+        int col;
+    };
 
-};
+    Move possibleMoves[] = {
+        {2, 0},   // Move down
+        {0, 2},   // Move right
+        {-2, 0},  // Move up
+        {0, -2}   // Move left
+    };
 
+    for (const Move& move : possibleMoves) {
+        int newRow = pred_row + move.row;
+        int newCol = pred_col + move.col;
 
-int main(){
-	prey p;
-	p.set_loc();
-
+        if (rd == move.row && cd == move.col) {
+            pred_row = newRow;
+            pred_col = newCol;
+            break;
+        }
+    }
 }
 
+void prey::movePrey() {
+    // Define the maximum range the prey can move
+    const int maxRange = 3;
+
+    // Generate random moves for the prey within the specified range
+    int randomRowMove = rand() % (2 * maxRange + 1) - maxRange;
+    int randomColMove = rand() % (2 * maxRange + 1) - maxRange;
+
+    // Update the prey's position (prey_row and prey_col)
+    int newRow = prey_row + randomRowMove;
+    int newCol = prey_col + randomColMove;
+
+    // Ensure that the new position is within the boundaries (0 to 19)
+    if (newRow >= 0 && newRow < 20 && newCol >= 0 && newCol < 20) {
+        prey_row = newRow;
+        prey_col = newCol;
+    }
+}
+
+
+void prey::display() {
+    for (int k = 0; k < 20; k++) {
+        for (int l = 0; l < 20; l++) {
+            arr[k][l] = '-';
+            arr[pred_row][pred_col] = '$';
+            arr[prey_row][prey_col] = 'p';
+            cout << " " << arr[k][l];
+        }
+        cout << endl;
+    }
+}
+
+int main() {
+    prey p;
+    p.set_loc();
+    return 0;
+}
