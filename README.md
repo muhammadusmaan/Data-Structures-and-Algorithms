@@ -2,7 +2,8 @@
 Explore C++ projects: 
 1. Predator-Prey Game
 2. Dynamic Array Implementation
-3. Expression Evaluator with Stacks 
+3. Expression Evaluator with Stacks
+4. Airport Simulation System with Queue
 
 **Project 1: Predator-Prey Game (C++)**
 Simulate a Predator-Prey scenario on a 2D array. The Predator is attracted to the Prey, while the Prey is repelled away from the Predator. The positions are denoted by Pi,j for the Predator and pij for the Prey. The attraction/repulsion is proportional to the distance between the Predator and Prey, calculated using the Cartesian formula. Movements are restricted to row or column-wise. Can the Predator catch the Prey? Is there an optimized algorithm to guarantee the Predator never catches the Prey?
@@ -32,4 +33,12 @@ Advanced Features (optional):
 Multidigit and decimal operands.
 Variable operands.
 Complex operands like exp(x), sin(x), a+b(c+d), -a%b, etc.
+
+**Project 3: Airport Simulation System with Queue Data Structure (C++)**
+
+The C++ code implements an airport simulation system, employing a queue data structure to orchestrate the orderly flow of aircraft. The program defines a Plane class with attributes like ID and priority (airtime), randomly generated during initialization. The Queue class, functioning as an array-based queue, facilitates essential operations such as enqueue, dequeue, and status display.
+
+In the simulation, aircraft arrive at random intervals, enqueued and sorted based on priority. Departures trigger dequeuing with subsequent airtime adjustments. The program accommodates diverting scenarios under specific conditions, providing real-time indications of diverted planes. The status of the landing queue, displaying aircraft IDs, is periodically presented.
+
+The simulation runs until predefined conditions are met, showcasing effective time management for arrivals, departures, and diverting intervals. The key highlight is the utilization of the queue data structure to emulate the systematic flow observed in real-world airport operations.
 
